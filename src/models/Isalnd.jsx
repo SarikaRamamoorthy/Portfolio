@@ -6,13 +6,13 @@ Source: https://sketchfab.com/3d-models/foxs-islands-163b68e09fcc47618450150be77
 Title: Fox's islands
 */
 
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { useGLTF } from '@react-three/drei'
 import  islandScene from '../assets/3d/island.glb'
 import { useFrame, useThree } from '@react-three/fiber'
 import { a } from '@react-spring/three'
 
-const Island = ({isRotating, setIsRotating , ...props}) => {
+const Island = ({isRotating, setIsRotating , setCurrentStage, ...props}) => {
 
     const islandRef = useRef();
 
@@ -62,7 +62,7 @@ const Island = ({isRotating, setIsRotating , ...props}) => {
             islandRef.current.rotation.y += 0.005 * Math.PI;
             rotationSpeed.current = 0.02;
         }
-        else {
+        else if(e.key == 'ArrowRight') {
             if(!isRotating) setIsRotating(true);
             islandRef.current.rotation.y -= 0.005 * Math.PI;
             rotationSpeed.current = -0.02;

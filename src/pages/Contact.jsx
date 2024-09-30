@@ -1,8 +1,11 @@
-import { Suspense, useRef, useState } from 'react'
 import emailjs from '@emailjs/browser'
-import Fox from '../models/Fox'
 import { Canvas } from '@react-three/fiber';
+import { Suspense, useRef, useState } from 'react'
+
+import Fox from '../models/Fox'
 import Loader from '../components/Loader';
+import useAlert from '../hooks/useAlert';
+import Alert from '../components/Alert';
 
 const Contact = () => {
 
@@ -15,6 +18,8 @@ const Contact = () => {
         email : "",
         message : ""
     })
+
+    const {alert, showAlert, hideAlert} = useAlert();
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -33,6 +38,7 @@ const Contact = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setIsLoading(true);
+        setCurrentAnimation('hit');
 
         emailjs.send(
             import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
@@ -46,9 +52,10 @@ const Contact = () => {
             },
             import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
         ).then(() => {
-            setCurrentAnimation('hit');
             setIsLoading(false);
+            showAlert({show : true, text : 'Thank you for your message😃', type : 'success'})
             setTimeout(() => {
+                hideAlert();
                 setForm({
                     name : "",
                     email : "",
@@ -56,18 +63,23 @@ const Contact = () => {
                 });
                 setCurrentAnimation('idle');
             }, [3000]);
-            // TODO: Show success message
-            // TODO: Hide an alert
+            
         }).catch((error) => {
             setIsLoading(false);
             setCurrentAnimation('idle');
             console.log(error);
-            // TODO: Show error message
+            
+            showAlert({show : true, text : `I didn't receive your message`, type : 'danger'})
+            
+            setTimeout(() => {
+                hideAlert();
+            }, 5000)
         })
     }
 
     return (
         <section className='flex lg:flex-row flex-col max-container'>
+            {alert.show && <Alert { ...alert }/>}
             <div className="flex-1 min-w-[50%] flex flex-col">
                 <h1 className='head-text'>Get in Touch</h1>
                 <form action="" className='w-full flex flex-col gap-6 mt-14' onSubmit={handleSubmit}>

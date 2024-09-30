@@ -22,7 +22,6 @@ const Fox = ({currentAnimation, ...props}) => {
         if(actions[currentAnimation]) {
             actions[currentAnimation].play()
         }
-        console.log(actions);
     }, [actions, currentAnimation])
 
     return (

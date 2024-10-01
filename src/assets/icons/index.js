@@ -26,6 +26,10 @@ import arrow from './arrow.svg'
 import contact from './contact.svg'
 import soundon from './soundon.png'
 import soundoff from './soundoff.png'
+import java from './java.svg'
+import college from './college.svg'
+import mysql from './mysql.svg'
+import school from './school.svg'
 
 export {
     css,
@@ -55,5 +59,9 @@ export {
     arrow,
     contact,
     soundon,
-    soundoff
+    soundoff,
+    java,
+    college,
+    mysql,
+    school
 }
